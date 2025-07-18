@@ -148,6 +148,8 @@ void Server::handleNewConnection() {
 	Client* new_client = new Client(client_fd);
 	_clients.insert(std::make_pair(client_fd, new_client));
 
+	fcntl(client_fd, F_SETFL, O_NONBLOCK);
+
 	struct epoll_event ev;
 	ev.events = EPOLLIN;
 	ev.data.fd = client_fd;
